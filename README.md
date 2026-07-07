@@ -1,5 +1,3 @@
----
-
 # 📋 Post Manager
 
 **Post Manager** is a desktop application for managing posts with a role-based access control system. It consists of an **async FastAPI backend** with JWT authentication and a **PySide6 desktop client**.
@@ -48,7 +46,7 @@
 ---
 
 ## 📁 Project Structure
-
+```
 app/
 ├── backend/
 │   ├── main.py              # FastAPI application
@@ -75,7 +73,7 @@ app/
 ├── .gitignore
 ├── LICENSE
 └── README.md
-
+```
 ---
 
 ## 🚀 Getting Started
@@ -89,7 +87,7 @@ app/
 ---
 
 ### Option 1: Run with Docker (Recommended)
-
+```
 bash
 # 1. Clone the repository
 git clone https://github.com/yourusername/post-manager.git
@@ -104,13 +102,13 @@ python -m venv venv
 source venv/bin/activate  # or venv\Scripts\activate on Windows
 pip install -r requirements.txt
 python main.py
-
+```
 ---
 
 ### Option 2: Run Locally (without Docker)
 
 #### Backend
-
+```
 bash
 cd backend
 
@@ -130,9 +128,9 @@ cp .env.example .env
 
 # Run the server
 uvicorn main:app --reload
-
+```
 #### Frontend
-
+```
 bash
 cd frontend
 
@@ -145,14 +143,14 @@ pip install -r requirements.txt
 
 # Run the client
 python main.py
-
+```
 
 ---
 
 ## 🔧 Environment Variables
 
 Create a `.env` file in the `backend/` folder based on `.env.example`:
-
+```
 env
 # JWT
 SECRET_KEY=your-super-secret-key-change-in-production
@@ -161,7 +159,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES=30
 
 # Database
 DATABASE_URL=mysql+asyncmy://root:secret@localhost:3306/fastapi_db
-
+```
 
 ---
 
@@ -175,24 +173,24 @@ Once the backend is running, visit:
 ### Example API Requests
 
 #### Register
-bash
+```bash
 curl -X POST http://localhost:8000/register \
   -H "Content-Type: application/json" \
   -d '{"name":"Alice","email":"alice@ex.com","password":"secret123"}'
-
+```
 #### Login
-bash
+```bash
 curl -X POST http://localhost:8000/login \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "username=alice@ex.com&password=secret123"
-
+```
 #### Create Post (with JWT)
-bash
+```bash
 curl -X POST http://localhost:8000/posts \
   -H "Authorization: Bearer <YOUR_TOKEN>" \
   -H "Content-Type: application/json" \
   -d '{"title":"Hello","content":"World","is_public":true}'
-
+```
 ---
 
 ## 👥 User Roles
@@ -203,21 +201,6 @@ curl -X POST http://localhost:8000/posts \
 | **User** | Create/edit/delete own posts, view public posts + own posts |
 
 > 💡 **The first registered user automatically becomes the admin.**
-
----
-
-## 📸 Screenshots Guide
-
-To add screenshots:
-
-1. Take screenshots of your application
-2. Save them in the `docs/` folder (create it if needed)
-3. Replace the placeholder text in the Screenshots section above with:
-
-![Login Window](docs/login_window.png)
-![Admin Users Tab](docs/admin_users_tab.png)
-![Admin Posts Tab](docs/admin_posts_tab.png)
-![User Posts Tab](docs/user_posts_tab.png)
 
 ---
 
