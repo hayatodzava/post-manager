@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # ===== MySQL =====
+  db:
+    image: mysql:8
+    container_name: post_manager_db
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: fastapi_db
+      MYSQL_USER: post_user
+      MYSQL_PASSWORD: post_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-psecret"]
+      timeout: 20s
+      retries: 10
+      interval: 5s
+
+  # ===== FastAPI Backend =====
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: post_manager_backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: mysql+asyncmy://root:secret@db:3306/fastapi_db
+      SECRET_KEY: ${SECRET_KEY:-your-super-secret-key-change-in-production}
+      ALGORITHM: ${ALGORITHM:-HS256}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+    volumes:
+      - ./backend:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+volumes:
+  mysql-data:
