@@ -90,7 +90,7 @@ app/
 ```
 bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/post-manager.git
+git clone https://github.com/hayatodzava/post-manager.git
 cd post-manager
 
 # 2. Start MySQL + Backend with Docker Compose
